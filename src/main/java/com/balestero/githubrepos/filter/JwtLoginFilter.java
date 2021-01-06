@@ -19,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 
-public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
+public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 
-    public JWTLoginFilter(String url, AuthenticationManager authenticationManager) {
+    public JwtLoginFilter(String url, AuthenticationManager authenticationManager) {
         super(new AntPathRequestMatcher(url));
         setAuthenticationManager(authenticationManager);
     }

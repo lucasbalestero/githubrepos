@@ -35,7 +35,7 @@ public class SwaggerConfig {
                 "API REST para listar todos os repositórios de um determinado usuário do GitHub.",
                 "1.0",
                 "Terms of service",
-                new Contact("Lucas Balestero", "www.balestero.com", "lucasbalestero@gmail.com"),
+                new Contact("Lucas Balestero", "https://www.balestero.com", "lucasbalestero@gmail.com"),
                 "Apache License Version 2.0",
                 "https://www.apache.org/licenses/LICENSE-2.0",
                 Collections.emptyList());

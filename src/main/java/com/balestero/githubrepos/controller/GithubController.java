@@ -1,13 +1,18 @@
 package com.balestero.githubrepos.controller;
 
 
+import com.balestero.githubrepos.controller.dto.GithubUser;
+import com.balestero.githubrepos.controller.dto.RepositorySummary;
+import com.balestero.githubrepos.service.GithubService;
+import com.sun.xml.internal.ws.client.sei.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.function.EntityResponse;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 public class GithubController {
@@ -15,14 +20,13 @@ public class GithubController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String list() {
-        return "works";
-    }
+    @Autowired
+    private GithubService githubService;
 
-    @RequestMapping(value = "/health", method = RequestMethod.GET)
-    public String health() {
-        return "ok";
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public ResponseEntity<List<RepositorySummary>> list(@RequestBody GithubUser githubUser) {
+        List<RepositorySummary> repositories = githubService.listRepositories(githubUser.getUsername(), githubUser.getPassword());
+        return ResponseEntity.ok(repositories);
     }
 
 
