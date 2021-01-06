@@ -12,4 +12,9 @@ public class GithubController {
     public String list() {
         return "works";
     }
+
+    @RequestMapping(value = "/health", method = RequestMethod.GET)
+    public String health() {
+        return "ok";
+    }
 }
