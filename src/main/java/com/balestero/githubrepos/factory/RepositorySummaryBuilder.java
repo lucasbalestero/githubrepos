@@ -35,6 +35,11 @@ public class RepositorySummaryBuilder {
         return this;
     }
 
+    public RepositorySummaryBuilder withName(String name) {
+        repositorySummary.setName(name);
+        return this;
+    }
+
     public RepositorySummaryBuilder withLanguage(String language) {
         repositorySummary.setLanguage(language);
         return this;

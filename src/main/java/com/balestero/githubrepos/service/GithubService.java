@@ -53,7 +53,9 @@ public class GithubService {
                             .withPrivate(githubRepository.getPrivate())
                             .withCreatedAt(githubRepository.getCreatedAt())
                             .withDescription(githubRepository.getDescription())
+                            .withFullName(githubRepository.getFullName())
                             .withLanguage(githubRepository.getLanguage())
+                            .withName(githubRepository.getName())
                             .withOwner(githubRepository.getOwner())
                             .withUpdatedAt(githubRepository.getUpdatedAt())
                             .build();
