@@ -1,8 +1,12 @@
 package com.balestero.githubrepos;
 
 import com.balestero.githubrepos.controller.dto.RepositorySummary;
+import com.balestero.githubrepos.exception.InvalidTokenException;
+import com.balestero.githubrepos.exception.UsernameNotFoundException;
 import com.balestero.githubrepos.service.GithubRepositoryService;
+import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,6 +41,16 @@ public class GithubRepositoryTest {
         List<RepositorySummary> repositorySummaries = githubRepositoryService.listRepositories("lucasbalestero");
 
         assertThat(repositorySummaries.size(), Matchers.greaterThan(0));
+    }
+
+    @Test
+    public void should_throw_exception_if_username_is_not_found() {
+        Assertions.assertThrows(UsernameNotFoundException.class, () -> githubRepositoryService.listRepositories("1j348tj193248tj"));
+    }
+
+    @Test
+    public void should_throw_exception_if_token_is_invalid() {
+        Assertions.assertThrows(InvalidTokenException.class, () -> githubRepositoryService.listRepositories("1j348tj193248tj", "11"));
     }
 
 }

@@ -44,6 +44,8 @@ public class GithubRepositoryService {
      */
     public List<RepositorySummary> listRepositories(String username, String token) {
 
+        // https://api.github.com/users/{username}/repos
+        // does not bring private repositories
         String url = String.format("https://api.github.com/search/repositories?q=user:%s", username);
 
         List<GithubRepository> repositories = githubApiService.request(url, token);

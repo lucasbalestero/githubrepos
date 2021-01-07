@@ -22,11 +22,8 @@ public class GithubController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<List<RepositorySummary>> list(@RequestBody(required = true) GithubUser githubUser) {
-        if (githubUser.getUsername() == null) {
-            throw new IllegalArgumentException("Username must be provided");
-        }
-        if (githubUser.getPassword() == null) {
-            throw new IllegalArgumentException("Password must be provided");
+        if (githubUser.getUsername() == null || githubUser.getPassword() == null) {
+            return ResponseEntity.badRequest().build();
         }
         List<RepositorySummary> repositories = githubRepositoryService.listRepositories(githubUser.getUsername(), githubUser.getPassword());
         return ResponseEntity.ok(repositories);

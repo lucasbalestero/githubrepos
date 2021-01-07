@@ -2,11 +2,11 @@ package com.balestero.githubrepos.service;
 
 import com.balestero.githubrepos.controller.dto.GithubRepository;
 import com.balestero.githubrepos.controller.dto.GithubRepositoryList;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import com.balestero.githubrepos.exception.InvalidTokenException;
+import com.balestero.githubrepos.exception.UsernameNotFoundException;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -26,8 +26,15 @@ public class GithubApiService {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> httpEntity = new HttpEntity<>("", headers);
 
-        ResponseEntity<GithubRepositoryList> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity, GithubRepositoryList.class);
+        try {
 
-        return response.getBody().getItems();
+            ResponseEntity<GithubRepositoryList> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity, GithubRepositoryList.class);
+            return response.getBody().getItems();
+
+        } catch(HttpClientErrorException.UnprocessableEntity e) {
+            throw new UsernameNotFoundException();
+        } catch(HttpClientErrorException.Unauthorized e) {
+            throw new InvalidTokenException();
+        }
     }
 }
