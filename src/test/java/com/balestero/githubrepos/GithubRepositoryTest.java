@@ -1,7 +1,7 @@
 package com.balestero.githubrepos;
 
 import com.balestero.githubrepos.controller.dto.RepositorySummary;
-import com.balestero.githubrepos.service.GithubService;
+import com.balestero.githubrepos.service.GithubRepositoryService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +16,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest
-public class GithubAPITest {
+public class GithubRepositoryTest {
 
 
     @Autowired
-    GithubService githubService;
+    GithubRepositoryService githubRepositoryService;
 
     @Test
-    public void is_api_up() {
+    public void is_github_api_up() {
         RestTemplate restTemplate = new RestTemplate();
         String resourceURL
                 = "https://api.github.com/zen";
@@ -34,8 +34,9 @@ public class GithubAPITest {
 
     @Test
     public void should_list_user_repositories_when_username_is_provided() {
-        List<RepositorySummary> repositorySummaries = githubService.listRepositories("lucasbalestero");
+        List<RepositorySummary> repositorySummaries = githubRepositoryService.listRepositories("lucasbalestero");
 
         assertThat(repositorySummaries.size(), Matchers.greaterThan(0));
     }
+
 }

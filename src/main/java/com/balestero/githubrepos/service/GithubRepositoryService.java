@@ -1,19 +1,25 @@
 package com.balestero.githubrepos.service;
 
 import com.balestero.githubrepos.controller.dto.GithubRepository;
+import com.balestero.githubrepos.controller.dto.GithubRepositoryList;
 import com.balestero.githubrepos.controller.dto.RepositorySummary;
 import com.balestero.githubrepos.factory.RepositorySummaryBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class GithubService {
+public class GithubRepositoryService {
+
+    @Autowired
+    private GithubApiService githubApiService;
 
     /**
      * Fetch github's API to create a list of repository summaries.
@@ -37,12 +43,15 @@ public class GithubService {
      * @return a list of {@link RepositorySummary} with data from github's API
      */
     public List<RepositorySummary> listRepositories(String username, String token) {
-        RestTemplate restTemplate = new RestTemplate();
-        String resourceURL = String.format("https://api.github.com/users/%s/repos", username);
-        ResponseEntity<GithubRepository[]> response = restTemplate.getForEntity(resourceURL, GithubRepository[].class);
-        List<GithubRepository> repositories = Arrays.asList(response.getBody());
+
+        String url = String.format("https://api.github.com/search/repositories?q=user:%s", username);
+
+        List<GithubRepository> repositories = githubApiService.request(url, token);
+
         return mapGithubReturn(repositories);
     }
+
+
 
     private List<RepositorySummary> mapGithubReturn(List<GithubRepository> repositories) {
         return repositories
